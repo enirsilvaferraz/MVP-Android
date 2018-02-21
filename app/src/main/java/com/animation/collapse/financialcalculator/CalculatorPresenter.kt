@@ -1,9 +1,15 @@
 package com.animation.collapse.financialcalculator
 
-class CalculatorPresenter : CalculatorContract.Presenter {
+import android.os.AsyncTask
 
-    lateinit var mView: CalculatorContract.View
-    lateinit var mBusiness: CalculatorContract.Business
+class CalculatorPresenter(view: CalculatorContract.View) : CalculatorContract.Presenter {
+
+    val mView: CalculatorContract.View = view
+    val mBusiness: CalculatorContract.Business
+
+    init {
+        mBusiness = CalculatorBusiness()
+    }
 
     override fun onInit() {
         val initialState = mBusiness.getInitialState()
@@ -21,8 +27,37 @@ class CalculatorPresenter : CalculatorContract.Presenter {
     }
 
     override fun onCalculateClicked(value: String, interest: String, monthsCount: String) {
-        val result = mBusiness.calculate(value.removeCurrency(), interest.removePercentual(), monthsCount.toInt())
+
+        if (value.toDoubleOrNull() != null)
+            mView.showError("O campo valor é inválido")
+
+        else if (interest.toDoubleOrNull() != null)
+            mView.showError("O campo juros é inválido")
+
+        else if (monthsCount.toIntOrNull() != null)
+            mView.showError("O campo quantidade de meses é inválido")
+
+        else
+            TaskGetResult(this).execute(value.removeCurrency(), interest.removePercentual(), monthsCount.toDouble())
+    }
+
+    fun callService(value: Double, interest: Double, monthsCount: Int): Double {
+        return mBusiness.calculate(value, interest, monthsCount)
+    }
+
+    fun updateResult(result: Double) {
         mView.setResult(result.toCurrency())
+    }
+}
+
+private class TaskGetResult(val presenter: CalculatorPresenter) : AsyncTask<Double, Void, Double>() {
+
+    override fun doInBackground(vararg params: Double?): Double {
+        return presenter.callService(params[0]!!, params[1]!!, params[2]!!.toInt())
+    }
+
+    override fun onPostExecute(result: Double?) {
+        presenter.updateResult(result!!)
     }
 }
 
@@ -31,7 +66,8 @@ class CalculatorPresenter : CalculatorContract.Presenter {
  */
 
 private fun Double.toPercentual(): String? = "${this}%"
+
 private fun Double.toCurrency(): String? = "R$${this}"
 
-private fun String.removeCurrency(): Double = this.replace("R$","").toDouble()
-private fun String.removePercentual(): Double = this.replace("%","").toDouble()
+private fun String.removeCurrency(): Double = this.replace("R$", "").toDouble()
+private fun String.removePercentual(): Double = this.replace("%", "").toDouble()

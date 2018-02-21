@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 
 /**
  * A placeholder fragment containing a simple view.
@@ -14,14 +15,14 @@ import android.widget.TextView
 @Suppress("UNREACHABLE_CODE")
 class CalculatorFragment : Fragment(), CalculatorContract.View {
 
-    lateinit var txValue:TextView
-    lateinit var txInterest:TextView
-    lateinit var txMonthsCount:TextView
-    lateinit var txResult:TextView
-    lateinit var btClear:Button
-    lateinit var btcalculate:Button
+    lateinit var txValue: TextView
+    lateinit var txInterest: TextView
+    lateinit var txMonthsCount: TextView
+    lateinit var txResult: TextView
+    lateinit var btClear: Button
+    lateinit var btcalculate: Button
 
-    lateinit var mPresenter:CalculatorContract.Presenter
+    lateinit var mPresenter: CalculatorContract.Presenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_calculator, container, false)
@@ -33,6 +34,10 @@ class CalculatorFragment : Fragment(), CalculatorContract.View {
         btcalculate.setOnClickListener({
             mPresenter.onCalculateClicked(txValue.text.toString(), txInterest.text.toString(), txMonthsCount.text.toString())
         })
+    }
+
+    override fun setPresenter(presenter: CalculatorContract.Presenter) {
+        mPresenter = presenter
     }
 
     override fun setValue(value: String?) {
@@ -49,5 +54,9 @@ class CalculatorFragment : Fragment(), CalculatorContract.View {
 
     override fun setResult(value: String?) {
         txResult.setText(value)
+    }
+
+    override fun showError(error: String) {
+        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
     }
 }

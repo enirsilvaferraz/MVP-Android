@@ -37,10 +37,12 @@
         android:layout_height="wrap_content"
         android:text="Limpar" />
 
-    <EditText
+    <TextView
+        android:textSize="20sp"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:hint="Resultado: R$ 0.00" />
+        android:text="Resultado: R$ 0.00" />
 
 </LinearLayout>

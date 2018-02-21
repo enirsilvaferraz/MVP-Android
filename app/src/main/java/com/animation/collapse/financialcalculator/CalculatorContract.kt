@@ -7,6 +7,8 @@ interface CalculatorContract {
         fun setInterest(value: String?)
         fun setMonthsCount(value: String?)
         fun setResult(value: String?)
+        fun setPresenter(presenter: CalculatorContract.Presenter)
+        fun showError(error: String)
     }
 
     interface Presenter {
