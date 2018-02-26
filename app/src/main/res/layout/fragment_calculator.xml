@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="32dp"
-    tools:context=".CalculatorFragment"
+    tools:context="manager.view.CalculatorFragment"
     tools:showIn="@layout/activity_calculator">
 
     <EditText
