@@ -9,40 +9,46 @@
     tools:showIn="@layout/activity_calculator">
 
     <EditText
+        android:id="@+id/calc_value"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:hint="Valor a ser investido" />
 
     <EditText
+        android:id="@+id/calc_interest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:hint="Taxa de juros mensal" />
 
     <EditText
+        android:id="@+id/calc_months_count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:hint="Quantidades de meses" />
 
     <Button
+        android:id="@+id/calc_calculate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:text="Calcular" />
 
     <Button
+        android:id="@+id/calc_clear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Limpar" />
 
     <TextView
-        android:textSize="20sp"
-        android:gravity="center"
+        android:id="@+id/calc_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="Resultado: R$ 0.00" />
+        android:gravity="center"
+        android:text="Resultado: R$ 0.00"
+        android:textSize="20sp" />
 
 </LinearLayout>

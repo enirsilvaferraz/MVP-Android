@@ -26,38 +26,35 @@ class CalculatorPresenter(view: CalculatorContract.View) : CalculatorContract.Pr
         mView.setResult(null)
     }
 
-    override fun onCalculateClicked(value: String, interest: String, monthsCount: String) {
+    override fun onCalculateClicked(value: String, interest: String,
+                                    monthsCount: String) {
 
-        if (value.toDoubleOrNull() != null)
-            mView.showError("O campo valor é inválido")
-
-        else if (interest.toDoubleOrNull() != null)
-            mView.showError("O campo juros é inválido")
-
-        else if (monthsCount.toIntOrNull() != null)
-            mView.showError("O campo quantidade de meses é inválido")
-
-        else
-            TaskGetResult(this).execute(value.removeCurrency(), interest.removePercentual(), monthsCount.toDouble())
+            TaskGetResult(this).execute(value.removeCurrency(),
+                    interest.removePercentual(), monthsCount.toDouble())
     }
 
     fun callService(value: Double, interest: Double, monthsCount: Int): Double {
         return mBusiness.calculate(value, interest, monthsCount)
     }
 
-    fun updateResult(result: Double) {
-        mView.setResult(result.toCurrency())
+    fun showResult(value: Double?) {
+        if (value != null) {
+            mView.setResult(value.toCurrency())
+        } else {
+            mView.showError("Problemas no cálculo")
+        }
     }
 }
 
-private class TaskGetResult(val presenter: CalculatorPresenter) : AsyncTask<Double, Void, Double>() {
+private class TaskGetResult(val presenter: CalculatorPresenter) :
+        AsyncTask<Double, Void, Double>() {
 
     override fun doInBackground(vararg params: Double?): Double {
         return presenter.callService(params[0]!!, params[1]!!, params[2]!!.toInt())
     }
 
     override fun onPostExecute(result: Double?) {
-        presenter.updateResult(result!!)
+        presenter.showResult(result)
     }
 }
 
