@@ -10,17 +10,13 @@ class HistoryAdapter(val mList: MutableList<CalculationVO>,
                      val onClickListener: HistoryViewHolder.OnHistoryClick) :
         RecyclerView.Adapter<HistoryViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int):
-            HistoryViewHolder {
-
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): HistoryViewHolder {
         val view = LayoutInflater.from(parent!!.context)
                 .inflate(R.layout.item_history, parent, false)
         return HistoryViewHolder(view, onClickListener)
     }
 
-    override fun getItemCount(): Int {
-        return mList.size
-    }
+    override fun getItemCount(): Int = mList.size
 
     override fun onBindViewHolder(holder: HistoryViewHolder?, position: Int) {
         holder?.bind(mList[position])

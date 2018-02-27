@@ -18,18 +18,7 @@ import com.animation.collapse.financialcalculator.manager.presenter.CalculatorPr
  */
 class CalculatorFragment : Fragment(), CalculatorContract.View {
 
-    private lateinit var txValue: TextView
-    private lateinit var txInterest: TextView
-    private lateinit var txMonthsCount: TextView
-    private lateinit var txResult: TextView
-    private lateinit var btClear: Button
-    private lateinit var btCalculate: Button
-
-    val mPresenter: CalculatorContract.Presenter = CalculatorPresenter(this)
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_calculator, container, false)
-    }
+    /* ... */
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,27 +30,18 @@ class CalculatorFragment : Fragment(), CalculatorContract.View {
         btClear = view.findViewById(R.id.calc_clear)
         btCalculate = view.findViewById(R.id.calc_calculate)
 
+        if (arguments != null) {
+            mPresenter.onInit(arguments!!.getParcelable("HISTORY"))
+        }
+
         btClear.setOnClickListener({
             mPresenter.onClearClicked()
         })
 
         btCalculate.setOnClickListener({
-
-            if (txValue.text.isNullOrBlank()) {
-                showError("Esse campo é obrigatório")
-            } else if (txValue.text.toString().toDoubleOrNull() == null) {
-                showError("Esse campo deve ser um número")
-            } else if (txValue.text.toString().toDouble() < 0.0) {
-                showError("Esse campo deve ser maior que zero")
-            }
-
             mPresenter.onCalculateClicked(txValue.text.toString(),
                     txInterest.text.toString(), txMonthsCount.text.toString())
         })
-
-        if (arguments != null) {
-            mPresenter.onInit(arguments!!.getParcelable<CalculationVO>("HISTORY"))
-        }
     }
 
     override fun setValue(value: String?) {
@@ -81,8 +61,21 @@ class CalculatorFragment : Fragment(), CalculatorContract.View {
     }
 
     override fun showError(error: String) {
-        Toast.makeText(context, error,
-                Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+    }
+
+    private lateinit var txValue: TextView
+    private lateinit var txInterest: TextView
+    private lateinit var txMonthsCount: TextView
+    private lateinit var txResult: TextView
+    private lateinit var btClear: Button
+    private lateinit var btCalculate: Button
+
+    val mPresenter: CalculatorContract.Presenter = CalculatorPresenter(this)
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_calculator, container, false)
     }
 
     class OnClickListener(val mPresenter: CalculatorContract.Presenter) : View.OnClickListener {

@@ -24,10 +24,13 @@ class CalculatorBusiness : CalculatorContract.Business {
         // Calculate
         model.result = model.value * Math.pow((1 + model.interest / 100), model.monthsCount.toDouble())
 
-        // Save model
-        mRepository.save(model)
-
         // Convert to VO
         return model.toVO()
+    }
+
+    override fun save(calculationVO: CalculationVO){
+
+        // Save model
+        mRepository.save(calculationVO.toModel())
     }
 }

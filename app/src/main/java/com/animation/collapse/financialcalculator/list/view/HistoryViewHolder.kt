@@ -14,10 +14,10 @@ class HistoryViewHolder(view: View, val onClickListener: OnHistoryClick) : Recyc
     lateinit var mResult: TextView
 
     fun bind(vo: CalculationVO) {
-        mValue.text = vo.value;
-        mInterest.text = vo.interest;
-        mMonthsCount.text = vo.monthsCount;
-        mResult.text = vo.result;
+        mValue.text = vo.getValueFormatted();
+        mInterest.text = vo.getInterestFormatted();
+        mMonthsCount.text = vo.getMonthsCountFormatted();
+        mResult.text = vo.getResultFormatted();
         itemView.setOnClickListener({ onClickListener.onClick(vo) })
     }
 

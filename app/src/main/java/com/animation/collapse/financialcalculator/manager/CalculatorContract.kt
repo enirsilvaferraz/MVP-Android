@@ -21,5 +21,6 @@ interface CalculatorContract {
 
     interface Business {
         fun calculate(calculationVO: CalculationVO): CalculationVO
+        fun save(calculationVO: CalculationVO)
     }
 }
